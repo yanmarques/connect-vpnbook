@@ -72,7 +72,7 @@ If the second process(recognition to text format) fails, more 1 request will be 
 With the image download on your machine, we human beings(at least I wish you are human) are able to recognize text in images, so you can be part of the script and execute process 2 by yourself putting the password in the file used as password-in-memory for the script, which is `vpn_pwd.txt` by default.
 
 ### permissions
-To open the vpn tunnel some low-level stuff is executed by OpenVPN binary, as create virtual interfaces for the tunnel, add routes, make ssl negotiation using system certificates, so privileged access is required. As said by the OpenVPN creators, they build in a way that the root is dropped after initialization, which is good enough, but if you are paranoid you can for sure execute everything without root privileges, read [this](https://openvpn.net/community-resources/hardening-openvpn-security/). If this is what you want, you need also to change the source code to remove the `sudo` call to OpenVPN binary, located on `vpn_connector.py:27`.
+To open the vpn tunnel some low-level stuff is executed by OpenVPN binary, as create virtual interfaces for the tunnel, add routes, make ssl negotiation using system certificates, so privileged access is required. As said by the OpenVPN creators, they build in a way that the root is dropped after initialization, which is good enough, but if you are paranoid you can for sure execute everything without root privileges, read [this](https://openvpn.net/community-resources/hardening-openvpn-security/). If this is what you want, you need also to change the source code to remove the `sudo` call to OpenVPN binary, located on `vpn_connector.py:22`.
 
 
 ## conclusion
