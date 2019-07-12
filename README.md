@@ -40,7 +40,7 @@ If you have permission to open the connection everything will be fine. The permi
 #### but what vpn does?
 Vpn aggregates security on layer 3 of OSI model, so the traffic will be first routed outside to some proxies of the vpn for then actually reach your target site `whatever.com`, that's why called as tunnels. Otherwise this tunnel does not makes connections anonymously, because in first place your internet provider already knows the IP of the vpn you contacted a time ago.
 
-### nice, but what the script is really doing?
+#### nice, but what the script is really doing?
 If you want a vpn, privacy, security and all that stuff means something to you, so a script which will connects you to a free vpn must be considered too, it can be the one point failure, why not? So I will try to describe very non-technical how and what really happens.
 
 First thing that must be said is that how OpenVPN works, and it's quite easy. You need a username, password and off course the ovpn file. Vpnbook provides all of that from their page, the ovpn files, the username that is default for everyone, and a password that changes every week. The detail here is the password, and besides it's volatile, the password is generated with image format, that means a image-to-text script is necessary. And nowadays image recognition is not something to wonder, there is something called optical character recognition, or just OCR that handles this problem very easy. In python there is the [Tesseract](https://github.com/madmaze/pytesseract) project to this, and it' is wonderful but the image with the password is provided in a way that confuses the recognition, and a better image treatment is necessary. So a simple search showed me this site [smallseotools](https://www.smallseotools.com/image-to-text-converter) that accepts URLs as input. Perfect! This was the major problem to be solved, the script is just an engineering about all that. And for sure it is intelligent enough to save the progress if some shit goes on, this can be time/bandwidth saving.
@@ -65,17 +65,17 @@ For the first time use, successful execution, this script will always:
   - make 1 file operation to save the password locally;
   - call the OpenVPN binary with privileged user;
 
-### ok, and what more can happen?
+#### ok, and what more can happen?
 If the second process(recognition to text format) fails, more 1 request will be made to download the image with the password, but reusing the previously connection, and 1 file operation to store the image locally. So for the server perception, a user just entered the page and downloaded the image which is exactly what should happen on browser.
 
-### and when this happen what can I do?
+#### and when this happen what can I do?
 With the image download on your machine, we human beings(at least I wish you are human) are able to recognize text in images, so you can be part of the script and execute process 2 by yourself putting the password in the file used as password-in-memory for the script, which is `vpn_pwd.txt` by default.
 
 ### permissions
 To open the vpn tunnel some low-level stuff is executed by OpenVPN binary, as create virtual interfaces for the tunnel, add routes, make ssl negotiation using system certificates, so privileged access is required. As said by the OpenVPN creators, they build in a way that the root is dropped after initialization, which is good enough, but if you are paranoid you can for sure execute everything without root privileges, read [this](https://openvpn.net/community-resources/hardening-openvpn-security/). If this is what you want, you need also to change the source code to remove the `sudo` call to OpenVPN binary, located on `vpn_connector.py:27`.
 
 
-### conclusion
+## conclusion
 As an education project it helped me to enter on networking word a little, understand how vpn tunnels work in practice.
 Another improvement was to think in the most viable way to keep security, being very strict on the critical process, that is to obtain the password online.
 A recommendation is to use proxychains with some good random proxies to avoid exposure and to limit correlation.     
