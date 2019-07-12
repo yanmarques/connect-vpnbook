@@ -5,7 +5,7 @@ Main module to open vpn connections.
 
 from util.filesystem import *
 from util.network import on_secure_server, backup_server_on_failure, parse_html
-from vpn_connector import VPNConnector, AuthError
+from vpn_connector import open_connection, AuthError
 
 
 from dataclasses import dataclass, field
@@ -93,13 +93,11 @@ def main(ovpn):
 
         try:
             # stop condition, may fail to open connection
-            process = VPNConnector(ovpn, password).open_connection()
+            process = open_connection(ovpn, password)
             info('Password is good, we are connected!')
 
-            # connection as opened on the process, so return a function to
-            # attach the connection process to current process
+            # attach the connection process to current process thread
             process.interact()
-            info('Suceeded!')
 
             # force condition to exit the loop
             attempts = 2
@@ -117,7 +115,7 @@ def main(ovpn):
             traceback.print_exc()
             error(f'{e.__class__.__name__}: {str(e)}')
             info('Attempting again to connect using image from vpnbook')
-
+        info('Suceeded!')
 
 def file_presence_checker():
     """helper function to hold content of file when exists"""
