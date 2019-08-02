@@ -6,6 +6,7 @@ Main module to open vpn connections.
 from util.filesystem import *
 from util.network import on_secure_server, backup_server_on_failure, parse_html
 from vpn_connector import open_connection, AuthError
+from os import unlink
 
 
 from dataclasses import dataclass, field
@@ -106,6 +107,9 @@ def main(ovpn):
             # put exception back on stack
             if checker.content is None:
                 raise e
+
+            # delete invalid cache
+            os.unlink(BKP_PWD_FILE)
 
             # with the cache invalidated, a new attempt will be executed to
             # retrieve current password online
