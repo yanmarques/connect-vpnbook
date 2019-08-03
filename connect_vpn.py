@@ -30,7 +30,7 @@ def main(ovpn):
         raise Exception('Ovpn file does not exist!')
 
     # stop condition for openvpn binary existence
-    if not pexpect.run('which openvpn'):
+    if not pexpect.which('openvpn'):
         raise Exception("""Openvpn not seems to be installed! Quiting...""")
 
     cache_invalid = False
